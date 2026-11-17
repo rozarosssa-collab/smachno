@@ -31,4 +31,7 @@
     <string name="home_greeting">Вітаю, %1$s!</string>
     <string name="home_subtitle">Список рецептів з'явиться тут у наступній лабораторній.</string>
     <string name="home_sign_out">Вийти</string>
+
+    <string name="login_demo_hint">Тестовий акаунт: emilys / emilyspass</string>
+    <string name="login_demo_fill">Підставити</string>
 </resources>

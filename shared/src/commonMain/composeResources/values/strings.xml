@@ -31,4 +31,7 @@
     <string name="home_greeting">Hello, %1$s!</string>
     <string name="home_subtitle">The recipe list will appear here in the next lab.</string>
     <string name="home_sign_out">Sign out</string>
+
+    <string name="login_demo_hint">Demo account: emilys / emilyspass</string>
+    <string name="login_demo_fill">Fill in</string>
 </resources>

@@ -23,6 +23,11 @@ import ua.edu.chnu.kkn.smachno.domain.auth.LoginUseCase
 private const val MIN_USERNAME_LENGTH = 3
 private const val MIN_PASSWORD_LENGTH = 6
 
+// dummyjson не дозволяє реєструвати своїх користувачів, тому для перевірки
+// застосунку є готовий тестовий акаунт.
+private const val DEMO_USERNAME = "emilys"
+private const val DEMO_PASSWORD = "emilyspass"
+
 @Stable
 internal class LoginViewModel(
     private val loginUseCase: LoginUseCase,
@@ -44,6 +49,15 @@ internal class LoginViewModel(
 
             LoginAction.TogglePasswordVisibility ->
                 _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
+
+            LoginAction.FillDemoCredentials -> _state.update {
+                it.copy(
+                    username = DEMO_USERNAME,
+                    password = DEMO_PASSWORD,
+                    usernameError = null,
+                    passwordError = null,
+                )
+            }
 
             LoginAction.SignIn -> signIn()
         }
