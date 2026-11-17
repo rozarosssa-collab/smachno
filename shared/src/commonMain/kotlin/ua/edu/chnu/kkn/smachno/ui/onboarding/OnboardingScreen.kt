@@ -34,9 +34,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.GraphicsLayerScope
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.absoluteValue
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -54,6 +57,7 @@ private val ActiveDotWidth = 24.dp
 private val IllustrationNarrow = 200.dp
 private val IllustrationWide = 280.dp
 private val TextMaxWidth = 440.dp
+private const val OffscreenScale = 0.8f
 
 @Composable
 internal fun OnboardingScreen(
@@ -129,7 +133,10 @@ private fun OnboardingNarrow(
                 IllustrationPlate(
                     page = pages[index],
                     illustrationSize = IllustrationNarrow,
-                    modifier = Modifier.fillMaxWidth().size(260.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(260.dp)
+                        .graphicsLayer { applyPageOffset(pagerState.pageOffset(index)) },
                 )
                 PageText(pages[index], centered = true)
             }
@@ -182,7 +189,12 @@ private fun OnboardingWide(
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh),
         ) { index ->
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                OnboardingIllustration(pages[index], Modifier.size(IllustrationWide))
+                OnboardingIllustration(
+                    page = pages[index],
+                    modifier = Modifier
+                        .size(IllustrationWide)
+                        .graphicsLayer { applyPageOffset(pagerState.pageOffset(index)) },
+                )
             }
         }
 
@@ -265,6 +277,21 @@ private fun IllustrationPlate(
     ) {
         OnboardingIllustration(page, Modifier.size(illustrationSize))
     }
+}
+
+/**
+ * Наскільки сторінка відійшла від центру: 0 - рівно по центру, 1 - повністю збоку.
+ * Рахується під час свайпу, тому значення дробове.
+ */
+private fun PagerState.pageOffset(page: Int): Float =
+    ((currentPage - page) + currentPageOffsetFraction).absoluteValue.coerceAtMost(1f)
+
+/** Картинка, що відходить убік, бліднішає і трохи зменшується. */
+private fun GraphicsLayerScope.applyPageOffset(offset: Float) {
+    alpha = 1f - offset
+    val scale = 1f - (1f - OffscreenScale) * offset
+    scaleX = scale
+    scaleY = scale
 }
 
 @Composable

@@ -34,4 +34,12 @@
 
     <string name="login_demo_hint">Demo account: emilys / emilyspass</string>
     <string name="login_demo_fill">Fill in</string>
+
+    <string name="home_title">Recipes</string>
+    <string name="home_retry">Try again</string>
+    <string name="home_empty">Nothing found</string>
+    <string name="home_recipe_meta">%1$s · %2$s</string>
+    <string name="home_recipe_time">%1$d min</string>
+    <string name="home_recipe_servings">%1$d servings</string>
+    <string name="home_recipe_calories">%1$d kcal</string>
 </resources>

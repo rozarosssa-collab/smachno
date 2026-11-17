@@ -14,6 +14,7 @@ import ua.edu.chnu.kkn.smachno.domain.auth.LoginUseCase
 import ua.edu.chnu.kkn.smachno.domain.auth.SignOutUseCase
 import ua.edu.chnu.kkn.smachno.domain.auth.SignedInUsernameUseCase
 import ua.edu.chnu.kkn.smachno.domain.onboarding.IsOnboardingPassedUseCase
+import ua.edu.chnu.kkn.smachno.domain.recipes.ObtainRecipesUseCase
 import ua.edu.chnu.kkn.smachno.domain.onboarding.MarkOnboardingPassedUseCase
 import ua.edu.chnu.kkn.smachno.ui.home.HomeViewModel
 import ua.edu.chnu.kkn.smachno.ui.login.LoginViewModel
@@ -33,6 +34,7 @@ private val domainModule = module {
     factoryOf(::IsSignedInUseCase)
     factoryOf(::SignOutUseCase)
     factoryOf(::SignedInUsernameUseCase)
+    factoryOf(::ObtainRecipesUseCase)
 }
 
 /** Презентаційний рівень: моделі екранів. */

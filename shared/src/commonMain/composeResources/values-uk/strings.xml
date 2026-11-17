@@ -34,4 +34,12 @@
 
     <string name="login_demo_hint">Тестовий акаунт: emilys / emilyspass</string>
     <string name="login_demo_fill">Підставити</string>
+
+    <string name="home_title">Рецепти</string>
+    <string name="home_retry">Спробувати ще</string>
+    <string name="home_empty">Нічого не знайшлось</string>
+    <string name="home_recipe_meta">%1$s · %2$s</string>
+    <string name="home_recipe_time">%1$d хв</string>
+    <string name="home_recipe_servings">%1$d порції</string>
+    <string name="home_recipe_calories">%1$d ккал</string>
 </resources>

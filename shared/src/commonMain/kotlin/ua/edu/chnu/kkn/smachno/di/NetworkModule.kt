@@ -21,9 +21,13 @@ import ua.edu.chnu.kkn.smachno.data.auth.service.LOGIN
 import ua.edu.chnu.kkn.smachno.data.auth.service.REFRESH
 import ua.edu.chnu.kkn.smachno.data.common.onFailure
 import ua.edu.chnu.kkn.smachno.data.common.onSuccess
+import ua.edu.chnu.kkn.smachno.data.recipes.AppRecipeRepository
+import ua.edu.chnu.kkn.smachno.data.recipes.service.AppRecipeApiService
+import ua.edu.chnu.kkn.smachno.data.recipes.service.RecipeApiService
 import ua.edu.chnu.kkn.smachno.data.security.AppSecureStorage
 import ua.edu.chnu.kkn.smachno.data.security.SecureStorage
 import ua.edu.chnu.kkn.smachno.domain.auth.AuthRepository
+import ua.edu.chnu.kkn.smachno.domain.recipes.RecipeRepository
 
 /** Сховище токенів. */
 internal val secureModule = module {
@@ -90,4 +94,6 @@ internal val networkModule = module {
 
     singleOf(::AppAuthApiService) { bind<AuthApiService>() }
     singleOf(::AppAuthRepository) { bind<AuthRepository>() }
+    singleOf(::AppRecipeApiService) { bind<RecipeApiService>() }
+    singleOf(::AppRecipeRepository) { bind<RecipeRepository>() }
 }
