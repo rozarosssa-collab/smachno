@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Smachno</string>
+
+    <string name="onboarding_counter">%1$s / %2$s</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_page_indicator">Slide %1$d of %2$d</string>
+
+    <string name="onboarding_recipes_title">Recipes at hand</string>
+    <string name="onboarding_recipes_body">Hundreds of tested recipes with ingredients, cooking time and difficulty.</string>
+    <string name="onboarding_steps_title">Cook step by step</string>
+    <string name="onboarding_steps_body">Every recipe is split into short steps, so nothing gets missed while cooking.</string>
+    <string name="onboarding_favourites_title">Keep your favourites</string>
+    <string name="onboarding_favourites_body">Mark the recipes you liked and come back to them whenever you want.</string>
+    <string name="onboarding_shopping_title">Shop with a list</string>
+    <string name="onboarding_shopping_body">Ingredients of a recipe turn into a shopping list in one tap.</string>
+</resources>

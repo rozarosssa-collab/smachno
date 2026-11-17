@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Смачно</string>
+
+    <string name="onboarding_counter">%1$s / %2$s</string>
+    <string name="onboarding_skip">Пропустити</string>
+    <string name="onboarding_next">Далі</string>
+    <string name="onboarding_start">Почати</string>
+    <string name="onboarding_page_indicator">Слайд %1$d з %2$d</string>
+
+    <string name="onboarding_recipes_title">Рецепти під рукою</string>
+    <string name="onboarding_recipes_body">Сотні перевірених рецептів з переліком продуктів, часом і складністю.</string>
+    <string name="onboarding_steps_title">Готуй покроково</string>
+    <string name="onboarding_steps_body">Кожен рецепт розбитий на короткі кроки, щоб нічого не пропустити під час готування.</string>
+    <string name="onboarding_favourites_title">Зберігай улюблене</string>
+    <string name="onboarding_favourites_body">Познач рецепти, які сподобались, і повертайся до них коли завгодно.</string>
+    <string name="onboarding_shopping_title">Купуй за списком</string>
+    <string name="onboarding_shopping_body">Продукти з рецепта перетворюються на список покупок одним дотиком.</string>
+</resources>
