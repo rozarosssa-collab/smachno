@@ -1,50 +1,63 @@
 package ua.edu.chnu.kkn.smachno
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.stringResource
-import smachno.shared.generated.resources.Res
-import smachno.shared.generated.resources.app_name
-import ua.edu.chnu.kkn.smachno.data.settings.AppSettings
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import androidx.savedstate.serialization.SavedStateConfiguration
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import org.koin.compose.viewmodel.koinViewModel
+import ua.edu.chnu.kkn.smachno.ui.login.LoginScreen
 import ua.edu.chnu.kkn.smachno.ui.onboarding.OnboardingScreen
 import ua.edu.chnu.kkn.smachno.ui.theme.AppTheme
 
+@Serializable
+data object Onboarding : NavKey
+
+@Serializable
+data object Login : NavKey
+
+/** Щоб стек навігації переживав поворот екрана, ключі треба вміти серіалізувати. */
+private val navConfiguration = SavedStateConfiguration {
+    serializersModule = SerializersModule {
+        polymorphic(NavKey::class) {
+            subclass(Onboarding::class, Onboarding.serializer())
+            subclass(Login::class, Login.serializer())
+        }
+    }
+}
+
 @Composable
 fun App() {
-    val settings = remember { AppSettings() }
-    var onboardingPassed by remember { mutableStateOf(settings.isOnboardingPassed()) }
-
     AppTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
-        ) {
-            if (onboardingPassed) {
-                // Решта застосунку з'явиться в наступних лабораторних.
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = stringResource(Res.string.app_name),
-                        style = MaterialTheme.typography.displayMedium,
+        val appViewModel = koinViewModel<AppViewModel>()
+        val backStack = rememberNavBackStack(navConfiguration, appViewModel.startDestination)
+
+        NavDisplay(
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+            entryProvider = entryProvider {
+                entry<Onboarding> {
+                    OnboardingScreen(
+                        onFinished = {
+                            backStack.add(Login)
+                            backStack.remove(Onboarding)
+                        },
                     )
                 }
-            } else {
-                OnboardingScreen(
-                    onFinished = {
-                        settings.setOnboardingPassed(true)
-                        onboardingPassed = true
-                    },
-                )
-            }
-        }
+                entry<Login> {
+                    LoginScreen(onSignedIn = { })
+                }
+            },
+        )
     }
 }

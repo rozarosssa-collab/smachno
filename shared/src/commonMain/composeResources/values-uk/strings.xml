@@ -15,4 +15,16 @@
     <string name="onboarding_favourites_body">Познач рецепти, які сподобались, і повертайся до них коли завгодно.</string>
     <string name="onboarding_shopping_title">Купуй за списком</string>
     <string name="onboarding_shopping_body">Продукти з рецепта перетворюються на список покупок одним дотиком.</string>
+
+    <string name="login_brand">ЧНУ · 344Б</string>
+    <string name="login_title">Вхід</string>
+    <string name="login_subtitle">Увійдіть, щоб відкрити добірку рецептів.</string>
+    <string name="login_username">Ім'я користувача</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_show">Показати</string>
+    <string name="login_hide">Сховати</string>
+    <string name="login_sign_in">Увійти</string>
+    <string name="login_error_required">Поле обов'язкове</string>
+    <string name="login_error_username_short">Щонайменше 3 символи</string>
+    <string name="login_error_password_short">Щонайменше 6 символів</string>
 </resources>

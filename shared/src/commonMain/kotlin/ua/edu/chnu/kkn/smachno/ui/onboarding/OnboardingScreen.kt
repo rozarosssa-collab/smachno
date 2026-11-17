@@ -32,17 +32,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import smachno.shared.generated.resources.Res
 import smachno.shared.generated.resources.onboarding_counter
 import smachno.shared.generated.resources.onboarding_next
 import smachno.shared.generated.resources.onboarding_skip
 import smachno.shared.generated.resources.onboarding_start
+import ua.edu.chnu.kkn.smachno.ui.common.ObserveEvents
 
 private val DotSize = 8.dp
 private val ActiveDotWidth = 24.dp
 
 @Composable
-fun OnboardingScreen(onFinished: () -> Unit) {
+internal fun OnboardingScreen(
+    onFinished: () -> Unit,
+    viewModel: OnboardingViewModel = koinViewModel(),
+) {
+    ObserveEvents(viewModel.events) { event ->
+        when (event) {
+            OnboardingEvent.OnboardingPassed -> onFinished()
+        }
+    }
+
+    val complete = { viewModel.onAction(OnboardingAction.Complete) }
     val pages = remember { OnboardingPage.entries }
     val pagerState = rememberPagerState { pages.size }
     val scope = rememberCoroutineScope()
@@ -68,7 +80,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                 style = MaterialTheme.typography.labelLarge.copy(letterSpacing = 2.sp),
                 color = MaterialTheme.colorScheme.primary,
             )
-            TextButton(onClick = onFinished) {
+            TextButton(onClick = complete) {
                 Text(stringResource(Res.string.onboarding_skip))
             }
         }
@@ -136,7 +148,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             Button(
                 onClick = {
                     if (isLastPage) {
-                        onFinished()
+                        complete()
                     } else {
                         scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
                     }

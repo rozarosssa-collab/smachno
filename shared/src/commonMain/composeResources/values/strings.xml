@@ -15,4 +15,16 @@
     <string name="onboarding_favourites_body">Mark the recipes you liked and come back to them whenever you want.</string>
     <string name="onboarding_shopping_title">Shop with a list</string>
     <string name="onboarding_shopping_body">Ingredients of a recipe turn into a shopping list in one tap.</string>
+
+    <string name="login_brand">CHNU · 344B</string>
+    <string name="login_title">Sign in</string>
+    <string name="login_subtitle">Sign in to open the recipe collection.</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_show">Show</string>
+    <string name="login_hide">Hide</string>
+    <string name="login_sign_in">Sign in</string>
+    <string name="login_error_required">This field is required</string>
+    <string name="login_error_username_short">At least 3 characters</string>
+    <string name="login_error_password_short">At least 6 characters</string>
 </resources>

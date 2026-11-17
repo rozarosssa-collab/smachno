@@ -31,3 +31,19 @@
   на `Canvas` (`ui/onboarding/`);
 * локалізація двома мовами: `composeResources/values` (англійська) та
   `composeResources/values-uk` (українська).
+
+### Лабораторна 5
+
+* бібліотека Navigation 3 (`navigation3-ui` + `lifecycle-viewmodel-navigation3`),
+  граф у `App.kt`: ключі `Onboarding` та `Login`, стек переживає поворот екрана
+  завдяки `SavedStateConfiguration`;
+* бібліотека Koin для ін'єкції залежностей, модулі розбиті по рівнях
+  (`di/AppModule.kt`), запуск - `di/KoinInit.kt`;
+* онбордінг переведено на MVI: `OnboardingAction`, `OnboardingEvent`,
+  `OnboardingViewModel`; завершення онбордінгу зберігається варіантом
+  використання `MarkOnboardingPassedUseCase` через `PreferencesRepository`;
+* `AppViewModel` через `IsOnboardingPassedUseCase` обирає стартовий екран:
+  якщо онбордінг уже проходили, застосунок одразу відкриває вхід;
+* екран входу з власною MVI-архітектурою: валідація імені користувача
+  (від 3 символів) і пароля (від 6), дія клавіатури в полі імені переводить
+  фокус на пароль, а в полі пароля виконує вхід.
