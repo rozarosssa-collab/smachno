@@ -1,6 +1,5 @@
 package ua.edu.chnu.kkn.smachno.ui.login
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,16 +7,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -30,6 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import smachno.shared.generated.resources.Res
@@ -45,23 +51,35 @@ import ua.edu.chnu.kkn.smachno.ui.common.ObserveEvents
 
 @Composable
 internal fun LoginScreen(
-    onSignedIn: (username: String) -> Unit,
+    onSignedIn: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
+    // Помилки авторизації показуємо спливним повідомленням, а не в полі.
     ObserveEvents(viewModel.events) { event ->
         when (event) {
-            is LoginEvent.SignedIn -> onSignedIn(event.username)
+            LoginEvent.SignedIn -> onSignedIn()
+            is LoginEvent.ShowError -> scope.launch {
+                snackbarHostState.showSnackbar(event.message)
+            }
         }
     }
 
-    LoginContent(
-        state = state,
-        onAction = viewModel::onAction,
-        modifier = modifier,
-    )
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        containerColor = MaterialTheme.colorScheme.background,
+    ) { innerPadding ->
+        LoginContent(
+            state = state,
+            onAction = viewModel::onAction,
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+        )
+    }
 }
 
 @Composable
@@ -75,12 +93,15 @@ private fun LoginContent(
     val passwordFocus = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
 
+    val submit = {
+        keyboard?.hide()
+        onAction(LoginAction.SignIn)
+    }
+
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
             .safeContentPadding()
-            .padding(horizontal = 24.dp, vertical = 32.dp),
+            .padding(horizontal = 24.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
     ) {
         Column(
@@ -112,6 +133,7 @@ private fun LoginContent(
                 onValueChange = { onAction(LoginAction.UsernameChanged(it)) },
                 label = { Text(stringResource(Res.string.login_username)) },
                 singleLine = true,
+                enabled = !state.isLoading,
                 isError = state.usernameError != null,
                 supportingText = state.usernameError?.let { { Text(stringResource(it)) } },
                 keyboardOptions = KeyboardOptions(
@@ -127,6 +149,7 @@ private fun LoginContent(
                 onValueChange = { onAction(LoginAction.PasswordChanged(it)) },
                 label = { Text(stringResource(Res.string.login_password)) },
                 singleLine = true,
+                enabled = !state.isLoading,
                 isError = state.passwordError != null,
                 supportingText = state.passwordError?.let { { Text(stringResource(it)) } },
                 visualTransformation = if (state.isPasswordVisible) {
@@ -148,26 +171,26 @@ private fun LoginContent(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done,
                 ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        keyboard?.hide()
-                        onAction(LoginAction.SignIn)
-                    },
-                ),
+                keyboardActions = KeyboardActions(onDone = { submit() }),
                 modifier = Modifier.fillMaxWidth().focusRequester(passwordFocus),
             )
         }
 
         Button(
-            onClick = {
-                keyboard?.hide()
-                onAction(LoginAction.SignIn)
-            },
+            onClick = submit,
             enabled = state.isSubmitEnabled,
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(14.dp),
         ) {
-            Text(stringResource(Res.string.login_sign_in))
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    strokeWidth = 2.dp,
+                )
+            } else {
+                Text(stringResource(Res.string.login_sign_in))
+            }
         }
     }
 }

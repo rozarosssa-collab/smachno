@@ -27,4 +27,8 @@
     <string name="login_error_required">Поле обов'язкове</string>
     <string name="login_error_username_short">Щонайменше 3 символи</string>
     <string name="login_error_password_short">Щонайменше 6 символів</string>
+
+    <string name="home_greeting">Вітаю, %1$s!</string>
+    <string name="home_subtitle">Список рецептів з'явиться тут у наступній лабораторній.</string>
+    <string name="home_sign_out">Вийти</string>
 </resources>

@@ -47,3 +47,24 @@
 * екран входу з власною MVI-архітектурою: валідація імені користувача
   (від 3 символів) і пароля (від 6), дія клавіатури в полі імені переводить
   фокус на пароль, а в полі пароля виконує вхід.
+
+### Лабораторна 6
+
+* бібліотеки ktor (клієнт, Auth, ContentNegotiation, Logging) та KSafe
+  для безпечного зберігання токенів;
+* мережевий стек авторизації: запити `LoginRequest`/`RefreshRequest`,
+  відповіді `LoginResponse`/`RefreshResponse`, сервіс `AppAuthApiService`,
+  репозиторій `AppAuthRepository`, варіанти використання `LoginUseCase`,
+  `IsSignedInUseCase`, `SignOutUseCase`, `SignedInUsernameUseCase`;
+* власний тип `Result` з `map`, `onSuccess`, `onFailure` і обгорткою
+  `safeRequest`, щоб мережеві винятки не виходили за рівень даних;
+* токени зберігаються через KSafe (Keystore на Android, Keychain на iOS,
+  зашифрований файл на десктопі), оновлення токена підвішене на
+  `refreshTokens` плагіна Auth і спрацьовує автоматично;
+* екран входу з'єднано з `LoginUseCase`, помилки показуються спливним
+  повідомленням через одноразові події;
+* порожній домашній екран `ui/home/`;
+* `AppViewModel` обирає стартовий екран з урахуванням того, чи є збережений
+  токен: домашній -> вхід -> онбордінг.
+
+API: `https://dummyjson.com`, тестовий користувач `emilys` / `emilyspass`.

@@ -9,9 +9,10 @@ internal data class LoginState(
     val username: String = "",
     val password: String = "",
     val isPasswordVisible: Boolean = false,
+    val isLoading: Boolean = false,
     val usernameError: StringResource? = null,
     val passwordError: StringResource? = null,
 ) {
     val isSubmitEnabled: Boolean
-        get() = username.isNotBlank() && password.isNotBlank()
+        get() = !isLoading && username.isNotBlank() && password.isNotBlank()
 }
