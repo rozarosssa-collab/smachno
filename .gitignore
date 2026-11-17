@@ -13,3 +13,4 @@ captures
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+.kotlin/
