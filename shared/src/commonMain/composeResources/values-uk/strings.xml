@@ -42,4 +42,16 @@
     <string name="home_recipe_time">%1$d хв</string>
     <string name="home_recipe_servings">%1$d порції</string>
     <string name="home_recipe_calories">%1$d ккал</string>
+
+    <string name="home_append_error">Не вдалось довантажити рецепти</string>
+    <string name="home_detail_empty">Оберіть рецепт зі списку, щоб побачити подробиці.</string>
+    <string name="home_detail_back">Назад до списку</string>
+    <string name="home_detail_rating">Оцінка %1$s · %2$d відгуків</string>
+    <string name="home_detail_prep">Підготовка %1$d хв</string>
+    <string name="home_detail_cook">Готування %1$d хв</string>
+    <string name="home_detail_servings">Порцій: %1$d</string>
+    <string name="home_detail_calories">%1$d ккал на порцію</string>
+    <string name="home_detail_ingredients">Інгредієнти</string>
+    <string name="home_detail_steps">Як готувати</string>
+    <string name="home_detail_tags">Теги</string>
 </resources>

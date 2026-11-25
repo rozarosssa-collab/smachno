@@ -15,6 +15,9 @@ data class Recipe(
     val rating: Double = 0.0,
     val tags: List<String> = emptyList(),
     val ingredients: List<String> = emptyList(),
+    val instructions: List<String> = emptyList(),
+    val mealType: List<String> = emptyList(),
+    val reviewCount: Int = 0,
 ) {
     /** Загальний час готування: підготовка плюс сама готовка. */
     val totalTimeMinutes: Int get() = prepTimeMinutes + cookTimeMinutes

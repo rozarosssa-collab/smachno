@@ -6,5 +6,6 @@ import ua.edu.chnu.kkn.smachno.data.recipes.model.RecipesResponse
 internal const val RECIPES = "/auth/recipes"
 
 internal interface RecipeApiService {
-    suspend fun recipes(limit: Int): Result<RecipesResponse>
+    /** Одна сторінка списку: limit - скільки взяти, skip - скільки пропустити. */
+    suspend fun recipes(limit: Int, skip: Int): Result<RecipesResponse>
 }
